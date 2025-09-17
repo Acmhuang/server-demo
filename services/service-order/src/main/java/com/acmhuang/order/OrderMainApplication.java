@@ -1,4 +1,4 @@
-package com.acmhuang.server;
+package com.acmhuang.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

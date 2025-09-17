@@ -15,6 +15,7 @@
     <description>server-demo</description>
     <modules>
         <module>services</module>
+        <module>model</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

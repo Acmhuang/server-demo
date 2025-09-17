@@ -1,0 +1,19 @@
+package com.acmhuang.product.config;
+
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * @author Acmhuang
+ * @date 2025/09/17 15:14
+ **/
+@Configuration
+public class ProductServiceConfig {
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
+}
