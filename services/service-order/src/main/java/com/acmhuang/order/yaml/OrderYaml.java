@@ -18,4 +18,6 @@ public class OrderYaml {
     private String timeout;
 
     private String autoConfirm;
+
+    private String dbUrl;
 }

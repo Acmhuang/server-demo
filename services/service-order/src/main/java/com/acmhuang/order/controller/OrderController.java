@@ -34,12 +34,15 @@ public class OrderController {
 
     @GetMapping("/config")
     public String config(){
-        return "orderTimeout:"+orderYaml.getTimeout()+"; orderAutoConfirm:"+orderYaml.getAutoConfirm();
+        return "orderTimeout:"+orderYaml.getTimeout()
+                +"; orderAutoConfirm:"+orderYaml.getAutoConfirm()
+                + "; orderDbUrl:"+orderYaml.getDbUrl();
     }
 
 
     @GetMapping("/create")
-    public Order getOrder(@RequestParam("productId") Long productId,@RequestParam("userId") Long userId) {
+    public Order getOrder(@RequestParam("productId") Long productId,
+                          @RequestParam("userId") Long userId) {
         return orderService.craeteOrder(productId, userId);
     }
 }

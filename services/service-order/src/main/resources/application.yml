@@ -1,10 +1,41 @@
+server:
+  port: 8000
+order:
+  timeout: 21min
+  auto-confirm: 3d
 spring:
+  profiles:
+    active: test
   application:
     name: service-order
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
+      config:
+        namespace: ${spring.profiles.active}
+        group: order
+---
+spring:
   config:
-    import: nacos:service-order.yml
-server:
-  port: 8000
+    import:
+      - nacos:common.yml
+      - nacos:database.yml
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    import:
+      - nacos:common.yml
+      - nacos:database.yml
+    activate:
+      on-profile: prod
+
+---
+spring:
+  config:
+    import:
+      - nacos:common.yml
+    activate:
+      on-profile: test
