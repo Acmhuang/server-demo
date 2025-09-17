@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,15 +24,18 @@ import org.springframework.web.client.RestTemplate;
 public class OrderServiceImpl implements OrderService {
 
     @Resource
-    DiscoveryClient discoveryClient;
+    private DiscoveryClient discoveryClient;
 
     @Autowired
     private RestTemplate restTemplate;
 
+    @Resource
+    private LoadBalancerClient loadBalancerClient;
+
     @Override
     public Order craeteOrder(Long productId, Long userId) {
         Order order = new Order();
-        Product product = getProductFromRemote(productId);
+        Product product = getProductFromRemoteWithAnnotation(productId);
         order.setId(1L);
         order.setTotalPrice(product.getPrice().multiply(new BigDecimal(product.getNum())));
         order.setUserId(userId);
@@ -41,13 +45,22 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    // 不使用@LoadBalanced注解
     private Product getProductFromRemote(Long productId) {
         //1.获取到商品服务所在的所有机器的IP+端口号
         List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
         ServiceInstance serviceInstance = instances.get(0);
-        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/product/getProduct/" + productId;
+        String url = loadBalancerClient.choose("service-product").getUri() + "/product/getProduct/" + productId;
         log.info("请求商品服务：{}", url);
         //2.调用商品服务
+        Product product = restTemplate.getForObject(url, Product.class);
+        return product;
+    }
+
+    // 使用@LoadBalanced注解
+    private Product getProductFromRemoteWithAnnotation(Long productId) {
+        String url = "http://service-product/product/getProduct/" + productId;
+        log.info("请求商品服务：{}", url);
         Product product = restTemplate.getForObject(url, Product.class);
         return product;
     }
