@@ -2,17 +2,20 @@ package com.acmhuang.order.controller;
 
 import com.acmhuang.order.bean.Order;
 import com.acmhuang.order.service.OrderService;
+import com.acmhuang.order.yaml.OrderYaml;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Acmhuang
  * @date 2025/09/17 14:13
  **/
 //激活配置文件刷新
-@RefreshScope
+//@RefreshScope
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -20,15 +23,18 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @Value("${order:timeout}")
-    private String orderTimeout;
+//    @Value("${order:timeout}")
+//    private String orderTimeout;
+//
+//    @Value("${order:auto-confirm}")
+//    private String orderAutoConfirm;
+    @Autowired
+    private OrderYaml orderYaml;
 
-    @Value("${order:auto-confirm}")
-    private String orderAutoConfirm;
 
     @GetMapping("/config")
     public String config(){
-        return "orderTimeout:"+orderTimeout+"; orderAutoConfirm:"+orderAutoConfirm;
+        return "orderTimeout:"+orderYaml.getTimeout()+"; orderAutoConfirm:"+orderYaml.getAutoConfirm();
     }
 
 
