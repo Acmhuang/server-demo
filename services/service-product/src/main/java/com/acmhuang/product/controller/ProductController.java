@@ -18,6 +18,7 @@ public class ProductController {
 
     @GetMapping("/getProduct/{id}")
     public Product getProduct(@PathVariable("id") Long productId) {
+        System.out.println("Request here");
         Product product = productService.getProduct(productId);
         return product;
     }

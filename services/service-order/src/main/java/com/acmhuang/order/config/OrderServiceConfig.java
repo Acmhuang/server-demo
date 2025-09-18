@@ -1,6 +1,8 @@
 package com.acmhuang.order.config;
 
 import feign.Logger;
+import feign.RetryableException;
+import feign.Retryer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +25,9 @@ public class OrderServiceConfig {
     @Bean
     Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
+    }
+    @Bean
+    Retryer retryer(){
+        return new Retryer.Default();
     }
 }
