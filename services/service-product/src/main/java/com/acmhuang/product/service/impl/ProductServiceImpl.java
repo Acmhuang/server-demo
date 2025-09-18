@@ -1,5 +1,6 @@
 package com.acmhuang.product.service.impl;
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import com.acmhuang.product.bean.Product;
 import com.acmhuang.product.service.ProductService;
@@ -18,6 +19,11 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(new BigDecimal("99"));
         product.setProductName("苹果"+product);
         product.setNum(2);
+        try{
+            TimeUnit.SECONDS.sleep(100);
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }
         return product;
     }
 }

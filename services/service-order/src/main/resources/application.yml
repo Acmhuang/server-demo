@@ -6,6 +6,7 @@ order:
 spring:
   profiles:
     active: test
+    include: feign
   application:
     name: service-order
   cloud:
