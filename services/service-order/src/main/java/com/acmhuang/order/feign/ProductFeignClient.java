@@ -1,11 +1,12 @@
 package com.acmhuang.order.feign;
 
+import com.acmhuang.order.feign.fallback.ProductFeignClientFallback;
 import com.acmhuang.product.bean.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 //说明是一个Feign客户端用于发送远程请求
-@FeignClient(value = "service-product")
+@FeignClient(value = "service-product",fallback = ProductFeignClientFallback.class)
 public interface ProductFeignClient {
 
 

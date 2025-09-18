@@ -14,3 +14,7 @@ spring:
 #            request-interceptors:
 #              - com.acmhuang.order.interceptor.XTokenRequestInterceptor
             retryer: feign.Retryer.Default
+feign:
+  sentinel:
+    ## 开启之后远程调用失败则会自动走兜底方法
+    enabled: true
