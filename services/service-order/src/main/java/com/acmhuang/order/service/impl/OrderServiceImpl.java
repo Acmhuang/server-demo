@@ -7,6 +7,7 @@ import com.acmhuang.order.feign.ProductFeignClient;
 import com.acmhuang.order.service.OrderService;
 import com.acmhuang.product.bean.Product;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
  * @author Acmhuang
  * @date 2025/09/17 14:13
  **/
-@SentinelResource(value = "createOrder")
 @Service
 @Slf4j
 public class OrderServiceImpl implements OrderService {
@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private ProductFeignClient productFeignClient;
 
+    @SentinelResource(value = "createOrder",blockHandler = "createOrderFallback")
     @Override
     public Order craeteOrder(Long productId, Long userId) {
         Order order = new Order();
@@ -49,6 +50,17 @@ public class OrderServiceImpl implements OrderService {
         order.setNickName("ming");
         order.setAddress("github");
         order.setProductList(List.of(product));
+        return order;
+    }
+
+    //兜底回调
+    public Order createOrderFallback(Long productId, Long userId, BlockException e) {
+        Order order = new Order();
+        order.setId(0L);
+        order.setTotalPrice(new BigDecimal("0"));
+        order.setUserId(userId);
+        order.setNickName("unknown");
+        order.setAddress("unknown");
         return order;
     }
 
