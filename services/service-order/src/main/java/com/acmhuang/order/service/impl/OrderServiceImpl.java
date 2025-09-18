@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.acmhuang.order.bean.Order;
+import com.acmhuang.order.feign.ProductFeignClient;
 import com.acmhuang.order.service.OrderService;
 import com.acmhuang.product.bean.Product;
 import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
@@ -32,10 +33,14 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private LoadBalancerClient loadBalancerClient;
 
+    @Resource
+    private ProductFeignClient productFeignClient;
+
     @Override
     public Order craeteOrder(Long productId, Long userId) {
         Order order = new Order();
-        Product product = getProductFromRemoteWithAnnotation(productId);
+        //Product product = getProductFromRemoteWithAnnotation(productId);
+        Product product = productFeignClient.getProductById(productId);
         order.setId(1L);
         order.setTotalPrice(product.getPrice().multiply(new BigDecimal(product.getNum())));
         order.setUserId(userId);
