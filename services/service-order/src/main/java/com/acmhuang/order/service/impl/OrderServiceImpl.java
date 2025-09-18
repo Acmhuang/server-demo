@@ -6,6 +6,7 @@ import com.acmhuang.order.bean.Order;
 import com.acmhuang.order.feign.ProductFeignClient;
 import com.acmhuang.order.service.OrderService;
 import com.acmhuang.product.bean.Product;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Acmhuang
  * @date 2025/09/17 14:13
  **/
+@SentinelResource(value = "createOrder")
 @Service
 @Slf4j
 public class OrderServiceImpl implements OrderService {

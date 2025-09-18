@@ -26,7 +26,7 @@ public class OrderServiceConfig {
     Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
-//    @Bean
+    @Bean
     Retryer retryer(){
         return new Retryer.Default();
     }
