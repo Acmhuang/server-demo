@@ -4,6 +4,7 @@ import com.acmhuang.order.bean.Order;
 import com.acmhuang.order.service.OrderService;
 import com.acmhuang.order.yaml.OrderYaml;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 //激活配置文件刷新
 //@RefreshScope
 @RestController
+@Slf4j
 @RequestMapping("/order")
 public class OrderController {
 
@@ -61,6 +63,7 @@ public class OrderController {
 
     @GetMapping("/read")
     public String read() {
+        log.info("reading Database");
         return "read";
     }
 }
