@@ -53,4 +53,14 @@ public class OrderController {
         order.setId(Long.MAX_VALUE);
         return order;
     }
+
+    @GetMapping("/write")
+    public String write() {
+        return "write";
+    }
+
+    @GetMapping("/read")
+    public String read() {
+        return "read";
+    }
 }
