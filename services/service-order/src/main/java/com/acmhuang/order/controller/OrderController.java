@@ -45,4 +45,12 @@ public class OrderController {
                           @RequestParam("userId") Long userId) {
         return orderService.craeteOrder(productId, userId);
     }
+
+    @GetMapping("/seckill")
+    public Order seckill(@RequestParam("productId") Long productId,
+                          @RequestParam("userId") Long userId) {
+        Order order = orderService.craeteOrder(productId, userId);
+        order.setId(Long.MAX_VALUE);
+        return order;
+    }
 }

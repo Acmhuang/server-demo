@@ -19,6 +19,8 @@ spring:
       transport:
         dashboard: localhost:8080
       eager: true
+      ## 是否分割请求链路
+      web-context-unify: false
 logging:
   level:
     com.acmhuang.order.feign: debug
