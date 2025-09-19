@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.acmhuang.product.service.ProductService;
 
 import java.net.http.HttpRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Acmhuang
@@ -25,6 +26,11 @@ public class ProductController {
         String xToken = request.getHeader("X-Token");
         System.out.println("Request here,X-Token: " + xToken);
         Product product = productService.getProduct(productId);
+        try{
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }
         return product;
     }
 }
