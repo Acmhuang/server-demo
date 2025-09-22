@@ -26,6 +26,8 @@ public class ProductController {
         String xToken = request.getHeader("X-Token");
         System.out.println("Request here,X-Token: " + xToken);
         Product product = productService.getProduct(productId);
+        //模拟请求的异常情况
+        int a = 1/0;
         try{
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e){
