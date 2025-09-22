@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2025/09/17 13:27
  **/
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 
     @Resource
