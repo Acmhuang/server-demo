@@ -2,13 +2,22 @@ spring:
   cloud:
     gateway:
       routes:
+        ## 按照从上至下顺序进行请求拦截，类似拦截器
+        ## 可用order改变拦截顺序，越小的优先级越高
+        - id: bing-route
+          uri: https://cn.bing.com/
+          predicates:
+            - Path=/**
+          order: 10
         - id: order-route
           ## lb代表负载均衡
           uri: lb://service-order
           ## 路径匹配
           predicates:
             - Path=/api/order/**
+          order: 1
         - id: product-route
           uri: lb://service-product
           predicates:
             - Path=/api/product/**
+          order: 2
