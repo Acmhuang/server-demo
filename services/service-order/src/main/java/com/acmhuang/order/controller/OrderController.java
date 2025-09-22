@@ -3,6 +3,7 @@ package com.acmhuang.order.controller;
 import com.acmhuang.order.bean.Order;
 import com.acmhuang.order.service.OrderService;
 import com.acmhuang.order.yaml.OrderYaml;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,20 @@ public class OrderController {
     }
 
     @GetMapping("/seckill")
+    @SentinelResource(value = "seckill-order",fallback = "seckillFallback")
     public Order seckill(@RequestParam("productId") Long productId,
                           @RequestParam("userId") Long userId) {
         Order order = orderService.craeteOrder(productId, userId);
         order.setId(Long.MAX_VALUE);
+        return order;
+    }
+
+    public Order seckillFallback(Long productId, Long userId, Throwable e) {
+        System.out.println("seckillFallback...");
+        Order order = new Order();
+        order.setId(productId);
+        order.setUserId(userId);
+        order.setAddress("异常信息：" + e.getClass());
         return order;
     }
 
